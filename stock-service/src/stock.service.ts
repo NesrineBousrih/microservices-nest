@@ -9,17 +9,18 @@ export class StockService {
   ]);
 
   checkAndReserve(productId: number, quantity: number): { available: boolean; message: string } {
-    const current = this.stock.get(productId);
+    const id = Number(productId);
+    const current = this.stock.get(id);
 
     if (current === undefined) {
-      return { available: false, message: `Product #${productId} not found in stock` };
+      return { available: false, message: `Product #${id} not found in stock` };
     }
 
     if (current < quantity) {
       return { available: false, message: `Not enough stock. Available: ${current}, requested: ${quantity}` };
     }
 
-    this.stock.set(productId, current - quantity);
-    return { available: true, message: `Reserved ${quantity} units of product #${productId}` };
+    this.stock.set(id, current - quantity);
+    return { available: true, message: `Reserved ${quantity} units of product #${id}` };
   }
 }
